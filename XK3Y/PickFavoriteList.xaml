@@ -1,0 +1,47 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="XK3Y.PickFavoriteList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <phone:PhoneApplicationPage.Resources>
+		<DataTemplate x:Key="ItemTemplate">
+			<Grid>
+				<TextBlock TextWrapping="Wrap" Text="{Binding Name}" />
+			</Grid>
+		</DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Black">
+        <Grid VerticalAlignment="Center">
+    	    <Grid.RowDefinitions>
+    		    <RowDefinition Height="Auto"/>
+    		    <RowDefinition Height="Auto"/>
+    		    <RowDefinition Height="Auto"/>
+    		    <RowDefinition Height="Auto"/>
+    		    <RowDefinition Height="Auto"/>
+    	    </Grid.RowDefinitions>
+    	    <RadioButton x:Name="SelectList" Content="Select a list" Checked="OnSelectChecked" />
+            <Controls:ListPicker x:Name="ListSelect" Grid.Row="1" VerticalAlignment="Bottom" ItemTemplate="{StaticResource ItemTemplate}" IsEnabled="{Binding IsChecked, ElementName=SelectList}"/>
+            <RadioButton x:Name="NewList" Content="New list" HorizontalAlignment="Left" Grid.Row="2" Checked="OnSelectChecked" />
+            <TextBox x:Name="Listname" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Bottom" TextChanged="OnTextChanged"  IsEnabled="{Binding IsChecked, ElementName=NewList}" />
+    	    <Grid Grid.Row="4" VerticalAlignment="Top" Height="80">
+    		    <Grid.ColumnDefinitions>
+    			    <ColumnDefinition/>
+    			    <ColumnDefinition/>
+    		    </Grid.ColumnDefinitions>
+    		    <Button x:Name="OkButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0" Click="Ok_Click" IsEnabled="False" />
+    		    <Button Content="Cancel" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Grid.Column="1" Click="Cancel_Click" />
+    	    </Grid>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

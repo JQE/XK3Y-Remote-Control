@@ -1,0 +1,54 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:XK3Y="clr-namespace:XK3Y"
+    x:Class="XK3Y.Config"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True" Style="{StaticResource TransitionPageStyle}">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,7">
+            <TextBlock x:Name="ApplicationTitle" Text="XK3Y Remote Control" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="configuration" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="35" TextWrapping="Wrap" Text="XK3Y IP Address:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="ipAddress" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" LostFocus="CheckAddress" Text="{Binding Path=IPAddress, Source={StaticResource AppSettings}, Mode=OneTime}" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ipAddressError" Height="61" TextWrapping="Wrap" Text="The IP address you've entered is incorrect. Please enter a correct address." VerticalAlignment="Top" Foreground="Red" Visibility="Collapsed"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" Text="Refresh rate:" VerticalAlignment="Center"/>
+            <XK3Y:SliderEx Grid.Row="2" Grid.Column="2" Margin="0,24,0,0" x:Name="refreshRate" Value="{Binding Path=RefreshRate, Source={StaticResource AppSettings}, Mode=OneTime}" Minimum="1" Maximum="10" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="3" Grid.Column="2" Margin="12,0,0,0" Text="{Binding Value, ElementName=refreshRate, StringFormat='0'}" VerticalAlignment="Top" />
+            
+            <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="save" Tap="OnSave">Save</Button>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,69 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    x:Class="XK3Y.GameInfo"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <Grid Margin="12,6" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="108" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" Grid.Column="0" FontSize="18" Text="{Binding Name}" />
+                <TextBlock TextWrapping="Wrap" Grid.Column="1" FontSize="18" Text="{Binding Value}" />
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Metro/dark/appbar.transport.play.rest.png" Text="Play" Click="Play"/>
+            <shell:ApplicationBarIconButton IconUri="/Metro/dark/appbar.favs.rest.png" Text="Favorite" Click="Favorite"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="XK3Y Remote Control" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="{Binding Gamename}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <TextBlock Text="This game is currently mounted" Style="{StaticResource PhoneTextAccentStyle}" Visibility="{Binding IsCurrentlyMounted, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <controls:Pivot x:Name="pivot" Margin="0">
+            	<controls:PivotItem Header="cover">
+                    <ScrollViewer Margin="0">
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Cover}"/>
+                    </ScrollViewer>
+            	</controls:PivotItem>
+            	<controls:PivotItem Header="summary" x:Name="SummaryPivot">
+            		<ScrollViewer Margin="0">
+            			<TextBlock TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Summary}"/>
+            		</ScrollViewer>
+            	</controls:PivotItem>
+            	<controls:PivotItem Header="info" x:Name="AdditionalInfoPivot">
+                    <ListBox Margin="0" ItemsSource="{Binding Info}" ItemTemplate="{StaticResource ItemTemplate}"/>
+                </controls:PivotItem>
+            </controls:Pivot>
+        </Grid>
+        <Popup x:Name="pickList"></Popup>
+    </Grid>
+
+</phone:PhoneApplicationPage>
