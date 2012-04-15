@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
 namespace XK3Y.Web
@@ -55,7 +56,14 @@ namespace XK3Y.Web
 
         public Uri ImageUri
         {
-            get { return new Uri("/Metro/lists.png", UriKind.Relative); }
+            get { return new Uri("/Metro/fav.png", UriKind.Relative); }
+        }
+
+        private BitmapImage cover;
+
+        public BitmapImage Cover
+        {
+            get { return cover ?? (cover = new BitmapImage(ImageUri)); }
         }
 
         public override string ToString()

@@ -14,7 +14,7 @@ namespace XK3Y.Web
 
         [XmlIgnore]
         [JsonIgnore]
-        protected BitmapImage cover;
+        private BitmapImage cover;
 
         [XmlIgnore]
         [JsonIgnore]

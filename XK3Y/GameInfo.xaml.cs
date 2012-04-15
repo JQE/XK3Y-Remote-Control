@@ -103,7 +103,7 @@ namespace XK3Y
 
         public bool IsAnotherGameMounted
         {
-            get { return DataLoader.Information.GuiState == GuiState.GameLoaded && DataLoader.Information.Active != Game.ID; }
+            get { return DataLoader.Information.ActiveGame != null && DataLoader.Information.GuiState == GuiState.GameLoaded && DataLoader.Information.Active != Game.ID; }
         }
 
         public bool IsCurrentlyMounted

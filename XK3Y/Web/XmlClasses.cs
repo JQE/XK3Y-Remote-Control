@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace XK3Y.Web
@@ -99,6 +101,11 @@ namespace XK3Y.Web
 
     public abstract class DirectoryItem : NamedItem
     {
+        protected DirectoryItem()
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => Cover = new BitmapImage(ImageUri));
+        }
+
         [XmlElement("MOUNT", Type = typeof(Hdd))]
         [XmlElement("DIR", Type = typeof(Directory))]
         public DirectoryItem[] DirectoryItems { get; set; }

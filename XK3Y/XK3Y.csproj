@@ -175,6 +175,7 @@
     <Content Include="Metro\dark\appbar.favs.addto.rest.png" />
     <Content Include="Metro\dark\appbar.favs.rest.png" />
     <Content Include="Metro\dark\appbar.transport.play.rest.png" />
+    <Content Include="Metro\fav.png" />
     <Content Include="Metro\favs.png" />
     <Content Include="Metro\folder.png" />
     <Content Include="Metro\hdd.png" />
