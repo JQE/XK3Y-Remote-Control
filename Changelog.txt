@@ -1,0 +1,18 @@
+v0.3b:
+- Added icons for favorite and hdd
+- Fixed issue with showing icons for favs and hdd
+- Fixed crash when launching games
+
+v0.2b:
+- Save button added to configuration
+- Configuration checks for changes before saving, and before leaving the page
+- You can adjust the refresh rate at which data.xml is refreshed from the XK3Y
+- List item sizes are increased from 36 pixels to 48 pixels. Font size is also increased
+- Tiles now start the animation at a random position
+- Loading of the coverwall should be a lot faster now, since images are downloaded in a seperate thread (use BitmapImage instead of ImageUri)
+- Scrolling of the coverwall is easier now, since you can now also start scrolling on the tiles itself (Tap event instead of Click, doh)
+- Fixed a crash when loading a game. Also fixed an issue with the gamecount
+- Play button is always enabled, a message is shown when loading is impossible
+
+v0.1b: 
+- Initial release
