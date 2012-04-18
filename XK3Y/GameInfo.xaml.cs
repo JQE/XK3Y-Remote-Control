@@ -161,22 +161,19 @@ namespace XK3Y
         {
             if (pickList.IsOpen) return;
 
-            if (!IsTrayOpen)
-            {
-                if (IsAnotherGameMounted)
-                    MessageBox.Show(
-                        string.Format("The game '{0}' is already loaded. Please open the tray before loading another game.",
-                        DataLoader.Information.ActiveGame.Name));
-                else
-                    MessageBox.Show("You'll have to open the tray before you can mount a game. Please open the tray, and try again.");
-                return;
-            }
-
             if (Game.Info == null) Game.Info = new PlayInfo();
             Game.Info.TimesPlayed++;
-            Game.Info.LastPlayed = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
-            DataLoader.UpdateData(Game.ID);
-            DataLoader.SaveSettings();
+            Game.Info.LastPlayed = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
+            DataLoader.UpdateData(Game.ID, false); // Will load the game, and wait until a response is retrieved and parsed
+            DataLoader.SaveSettings(); // Will save the settings
+
+            if (IsTrayOpen) return;
+            if (IsAnotherGameMounted)
+                MessageBox.Show(
+                    string.Format("The game '{0}' is already loaded. Please open the tray if you want to load this game instead.",
+                                  DataLoader.Information.ActiveGame.Name));
+            else
+                MessageBox.Show("Please open the tray if you want to mount this game.");
         }
         
         private void Favorite(object sender, EventArgs e)

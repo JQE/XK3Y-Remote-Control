@@ -1,3 +1,8 @@
+v0.4b:
+- Fixed crash when browsing hard disks with only directories at a certain level (and no games)
+- Download Cover.jpg, if the XML doesn't contain Cover information
+- Always launch a game, and not only if the tray is open, since the XK3Y will queue it anyway
+
 v0.3b:
 - Added icons for favorite and hdd
 - Fixed issue with showing icons for favs and hdd

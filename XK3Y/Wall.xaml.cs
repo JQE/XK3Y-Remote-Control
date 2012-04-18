@@ -52,7 +52,8 @@ namespace XK3Y
                 }
 
                 IEnumerable<NamedItem> childs = currentItem.DirectoryItems;
-                if (currentItem is Directory) childs = childs == null ? ((Directory)currentItem).Games : childs.Union(((Directory)currentItem).Games);
+                if (currentItem is Directory && ((Directory)currentItem).Games != null) 
+                    childs = childs == null ? ((Directory)currentItem).Games : childs.Union(((Directory)currentItem).Games);
                 MainMenu.ItemsSource = childs;
             }
             else

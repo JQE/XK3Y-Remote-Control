@@ -105,18 +105,53 @@ namespace XK3Y.Web
 
         private void OnInfoRetrieved(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
         {
-            if (openReadCompletedEventArgs.Error != null) return;
+            if (openReadCompletedEventArgs.Error != null)
+            {
+                DownloadCover();
+                return;
+            }
 
             XmlSerializer deser = new XmlSerializer(typeof(GameInfo));
             GameInfo info = (GameInfo)deser.Deserialize(openReadCompletedEventArgs.Result);
 
+            if (info.Summary != null) Summary = info.Summary;
+            if (info.Info != null) InfoItems = info.Info.Items;
+
+            if (info.Boxart != null)
+            {
+                Cover = info.Boxart;
+                Banner = info.Banner;
+
+                _hasInformation = true;
+                _downloadingInformation = false;
+
+                if (OnDownloadCoverComplete != null)
+                    OnDownloadCoverComplete(this, EventArgs.Empty);
+            }
+            else
+            {
+                DownloadCover();
+            }
+        }
+
+        private void DownloadCover()
+        {
+            // Download the cover from the jpg
+            WebClient c = new WebClient();
+            c.OpenReadCompleted += OnCoverRetrieved;
+            c.OpenReadAsync(ImageUri);
+        }
+
+        private void OnCoverRetrieved(object sender, OpenReadCompletedEventArgs e)
+        {
             _hasInformation = true;
             _downloadingInformation = false;
 
-            Cover = info.Boxart;
+            if (e.Error != null) return;
 
-            if (info.Summary != null) Summary = info.Summary;
-            if (info.Info != null) InfoItems = info.Info.Items;
+            BitmapImage img = new BitmapImage();
+            img.SetSource(e.Result);
+            Cover = img;
 
             if (OnDownloadCoverComplete != null)
                 OnDownloadCoverComplete(this, EventArgs.Empty);

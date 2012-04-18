@@ -58,43 +58,42 @@ namespace XK3Y.Web
             {
                 Thread.Sleep(AppSettings.RefreshRate * 1000);
 
-                DownloadData(true, false);
+                DownloadData(false, false);
             }
         }
 
         private static void GetData(Uri uri, bool async, DownloadStringCompletedEventHandler handler)
         {
             // First, find the data.xml file, and apply it to the coverloader
+            ManualResetEvent evt = async ? null : new ManualResetEvent(false);
             WebClient c = new WebClient();
-
-            ManualResetEvent evt = new ManualResetEvent(false);
 
             c.DownloadStringCompleted += handler;
             c.DownloadStringAsync(uri, evt);
 
-            if (!async) evt.WaitOne();
+            if (evt != null) evt.WaitOne();
         }
 
         private static void GetData(Uri uri, bool async, OpenReadCompletedEventHandler handler)
         {
             // First, find the data.xml file, and apply it to the coverloader
+            ManualResetEvent evt = async ? null : new ManualResetEvent(false);
             WebClient c = new WebClient();
             c.Headers["Cache-Control"] = "no-cache";
-            ManualResetEvent evt = new ManualResetEvent(false);
 
             c.OpenReadCompleted += handler;
             c.OpenReadAsync(uri, evt);
 
-            if (!async) evt.WaitOne();
+            if (evt != null) evt.WaitOne();
         }
 
-        public static void UpdateData(string gameid = null)
+        public static void UpdateData(string gameid = null, bool async = true)
         {
             Uri uri = string.IsNullOrEmpty(gameid)
                           ? new Uri(string.Format("http://{0}/data.xml?t={1}", AppSettings.IPAddress, random.Next()))
                           : new Uri(string.Format("http://{0}/launchgame.sh?{1}", AppSettings.IPAddress, gameid));
 
-            GetData(uri, true, OnDataOpened);
+            GetData(uri, async, OnDataOpened);
         }
 
         private static void OnDataOpened(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
