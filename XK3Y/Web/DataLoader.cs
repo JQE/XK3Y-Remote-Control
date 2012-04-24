@@ -84,7 +84,11 @@ namespace XK3Y.Web
             c.OpenReadCompleted += handler;
             c.OpenReadAsync(uri, evt);
 
-            if (evt != null) evt.WaitOne();
+            if (evt != null)
+            {
+                evt.WaitOne();
+                evt.Reset();
+            }
         }
 
         public static void UpdateData(string gameid = null, bool async = true)
