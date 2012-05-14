@@ -1,7 +1,11 @@
+v0.4c:
+- Fixed a problem which would prevent data refresh from the xk3y
+
 v0.4b:
 - Fixed crash when browsing hard disks with only directories at a certain level (and no games)
 - Download Cover.jpg, if the XML doesn't contain Cover information
 - Always launch a game, and not only if the tray is open, since the XK3Y will queue it anyway
+- Fixed issue with refreshing the current statue from the XK3Y
 
 v0.3b:
 - Added icons for favorite and hdd

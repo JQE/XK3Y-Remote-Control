@@ -40,16 +40,15 @@ namespace XK3Y.Web
 
         public static void DownloadData(bool async = true, bool autoRefresh = true)
         {
-            if (autoRefresh && (_refreshWorker == null || !_refreshWorker.IsBusy))
-            {
-                // Start the refresh thread
-                _refreshWorker = new BackgroundWorker { WorkerSupportsCancellation = true };
-                _refreshWorker.DoWork += OnRefresh;
-                _refreshWorker.RunWorkerAsync();
-            }
-
             Uri uri = new Uri(String.Format("http://{0}/data.xml?t={1}", AppSettings.IPAddress, random.Next()));
             GetData(uri, async, OnDataOpened);
+
+            if (!autoRefresh || (_refreshWorker != null && _refreshWorker.IsBusy)) return;
+
+            // Start the refresh thread
+            _refreshWorker = new BackgroundWorker { WorkerSupportsCancellation = true };
+            _refreshWorker.DoWork += OnRefresh;
+            _refreshWorker.RunWorkerAsync();
         }
 
         private static void OnRefresh(object sender, DoWorkEventArgs e)
@@ -65,7 +64,7 @@ namespace XK3Y.Web
         private static void GetData(Uri uri, bool async, DownloadStringCompletedEventHandler handler)
         {
             // First, find the data.xml file, and apply it to the coverloader
-            ManualResetEvent evt = async ? null : new ManualResetEvent(false);
+            AutoResetEvent evt = async ? null : new AutoResetEvent(false);
             WebClient c = new WebClient();
 
             c.DownloadStringCompleted += handler;
@@ -77,7 +76,7 @@ namespace XK3Y.Web
         private static void GetData(Uri uri, bool async, OpenReadCompletedEventHandler handler)
         {
             // First, find the data.xml file, and apply it to the coverloader
-            ManualResetEvent evt = async ? null : new ManualResetEvent(false);
+            AutoResetEvent evt = async ? null : new AutoResetEvent(false);
             WebClient c = new WebClient();
             c.Headers["Cache-Control"] = "no-cache";
 
@@ -87,7 +86,6 @@ namespace XK3Y.Web
             if (evt != null)
             {
                 evt.WaitOne();
-                evt.Reset();
             }
         }
 
@@ -102,7 +100,7 @@ namespace XK3Y.Web
 
         private static void OnDataOpened(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
         {
-            ManualResetEvent evt = openReadCompletedEventArgs.UserState as ManualResetEvent;
+            EventWaitHandle evt = openReadCompletedEventArgs.UserState as EventWaitHandle;
             if (openReadCompletedEventArgs.Error != null)
             {
                 if (evt != null) evt.Set();
@@ -117,6 +115,7 @@ namespace XK3Y.Web
                 Information.GuiState = info.GuiState;
                 Information.Emergency = info.Emergency;
                 Information.Active = info.Active;
+                if (evt != null) evt.Set();
                 return;
             }
             Information = info;
@@ -158,8 +157,8 @@ namespace XK3Y.Web
         public static Store RetrieveSettings()
         {
             Uri uri = new Uri(String.Format("http://{0}/store.sh", AppSettings.IPAddress));
-            GetData(uri, false, (sender, args) => {      
-                ManualResetEvent evt = args.UserState as ManualResetEvent;
+            GetData(uri, false, (sender, args) => {
+                AutoResetEvent evt = args.UserState as AutoResetEvent;
                 if (!string.IsNullOrEmpty(args.Result))
                 {
                     JObject j = JObject.Parse(args.Result);

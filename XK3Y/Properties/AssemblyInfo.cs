@@ -8,9 +8,9 @@ using System.Resources;
 [assembly: AssemblyTitle("X360")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard")]
-[assembly: AssemblyProduct("X360")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2012")]
+[assembly: AssemblyCompany("Bovendeur Consultancy")]
+[assembly: AssemblyProduct("XK3Y")]
+[assembly: AssemblyCopyright("Copyright © Bovendeur Consultancy 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("0.4b")]
+[assembly: AssemblyFileVersion("0.4c")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
