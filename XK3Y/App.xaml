@@ -10,7 +10,8 @@
     <!--Application Resources-->
     <Application.Resources>
         <XK3Y:AppSettings x:Key="AppSettings" />        
-        <XK3Y:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>        
+        <XK3Y:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <XK3Y:StringToLowercaseConverter x:Key="StringToLowercaseConverter"/>
         <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">
             <Setter Property="toolkit:TransitionService.NavigationInTransition">
                 <Setter.Value>

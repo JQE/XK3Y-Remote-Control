@@ -1,0 +1,15 @@
+
+/_ReSharper.X3KY
+*.suo
+*.user
+/XK3Y/Bin
+/XK3Y/obj
+/XK3Y/Bin
+/XK3Y/obj
+/packages/Newtonsoft.Json.4.5.1/lib/winrt45
+/packages/Newtonsoft.Json.4.5.1/lib/net20
+/packages/Newtonsoft.Json.4.5.1/lib/net35
+/packages/Newtonsoft.Json.4.5.1/lib/net40
+/packages/Newtonsoft.Json.4.5.1/lib/sl3-wp
+/packages/Newtonsoft.Json.4.5.1/lib/sl4
+/packages/SilverlightToolkitWP.4.2011.12.14/lib/sl3-wp

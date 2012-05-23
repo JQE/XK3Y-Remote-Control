@@ -1,3 +1,8 @@
+v0.5:
+- Fixed issue where the banner would be used instead of the cover
+- Changed pivot to panorama item on the gameinfo screen
+- Added banner to gameinfo screen
+
 v0.4c:
 - Fixed a problem which would prevent data refresh from the xk3y
 

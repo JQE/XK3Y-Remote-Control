@@ -5,7 +5,7 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("X360")]
+[assembly: AssemblyTitle("XK3Y")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bovendeur Consultancy")]
@@ -32,5 +32,5 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("0.4c")]
+[assembly: AssemblyFileVersion("0.5")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

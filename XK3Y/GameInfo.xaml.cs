@@ -38,26 +38,31 @@ namespace XK3Y
                 case "Active":
                     ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).IsEnabled = !IsCurrentlyMounted;
                     RaisePropertyChanged("IsCurrentlyMounted");
+                    RaisePropertyChanged("Game");
+                    break;
+                case "Banner":
+                    AddRemovePanoramaItem(g => Banner != null, BannerPivot);
+                    RaisePropertyChanged("Banner");
                     break;
                 case "Summary":
-                    AddRemovePivotItem(g => !string.IsNullOrEmpty(Summary), SummaryPivot);
+                    AddRemovePanoramaItem(g => !string.IsNullOrEmpty(Summary), SummaryPivot);
                     RaisePropertyChanged("Summary");
                     break;
                 case "Info":
-                    AddRemovePivotItem(g => Info != null, AdditionalInfoPivot);
+                    AddRemovePanoramaItem(g => Info != null, AdditionalInfoPivot);
                     RaisePropertyChanged("Info");
                     break;
             }
         }
 
-        private void AddRemovePivotItem(Func<GameInfo, bool> add, PivotItem pivotItem)
+        private void AddRemovePanoramaItem(Func<GameInfo, bool> add, PanoramaItem panoramaItem)
         {
             if (add.Invoke(this))
             {
-                if (!pivot.Items.Contains(pivotItem)) pivot.Items.Add(pivotItem);
+                if (!panorama.Items.Contains(panoramaItem)) panorama.Items.Add(panoramaItem);
             }
             else
-                pivot.Items.Remove(pivotItem);
+                panorama.Items.Remove(panoramaItem);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -80,11 +85,11 @@ namespace XK3Y
             DataLoader.Information.PropertyChanged += OnPropertyChanged;
             Game.PropertyChanged += OnPropertyChanged;
 
-            AddRemovePivotItem(g => !string.IsNullOrEmpty(Summary), SummaryPivot);
-            AddRemovePivotItem(g => Info != null, AdditionalInfoPivot);
+            AddRemovePanoramaItem(g => Banner != null, BannerPivot);
+            AddRemovePanoramaItem(g => !string.IsNullOrEmpty(Summary), SummaryPivot);
+            AddRemovePanoramaItem(g => Info != null, AdditionalInfoPivot);
 
             ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).IsEnabled = !IsCurrentlyMounted;
-//            ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).IsEnabled = IsTrayOpen;
             ((ApplicationBarIconButton)ApplicationBar.Buttons[1]).IconUri = FavoriteUri;
         }
 
@@ -145,6 +150,11 @@ namespace XK3Y
         public BitmapImage Cover
         {
             get { return Game.Cover; }
+        }
+
+        public BitmapImage Banner
+        {
+            get { return Game.Banner; }
         }
 
         public InfoItem[] Info

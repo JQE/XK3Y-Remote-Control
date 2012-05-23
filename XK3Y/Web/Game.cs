@@ -89,6 +89,13 @@ namespace XK3Y.Web
             }
         }
 
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool IsCurrentlyMounted
+        {
+            get { return DataLoader.Information.Active == ID; }
+        }
+
         private void RetrieveInformation()
         {
             lock (_lockObject)
@@ -111,11 +118,16 @@ namespace XK3Y.Web
                 return;
             }
 
-            XmlSerializer deser = new XmlSerializer(typeof(GameInfo));
-            GameInfo info = (GameInfo)deser.Deserialize(openReadCompletedEventArgs.Result);
+            XmlSerializer deser = new XmlSerializer(typeof (GameInfo));
+            GameInfo info = (GameInfo) deser.Deserialize(openReadCompletedEventArgs.Result);
 
-            if (info.Summary != null) Summary = info.Summary;
-            if (info.Info != null) InfoItems = info.Info.Items;
+            // Is not default xml?
+            if (info.Summary == null || info.Summary != "No Summary")
+            {
+                if (info.Summary != null) Summary = info.Summary;
+                if (info.Info != null) InfoItems = info.Info.Items;
+                _hasInformation = true;
+            }
 
             if (info.Boxart != null)
             {

@@ -103,6 +103,7 @@
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="SliderEx.cs" />
+    <Compile Include="StringToLowercaseConverter.cs" />
     <Compile Include="Wall.xaml.cs">
       <DependentUpon>Wall.xaml</DependentUpon>
     </Compile>

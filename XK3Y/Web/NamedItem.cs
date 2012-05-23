@@ -18,6 +18,10 @@ namespace XK3Y.Web
 
         [XmlIgnore]
         [JsonIgnore]
+        private BitmapImage banner;
+
+        [XmlIgnore]
+        [JsonIgnore]
         public BitmapImage Cover
         {
             get { return cover; }
@@ -32,10 +36,10 @@ namespace XK3Y.Web
         [JsonIgnore]
         public BitmapImage Banner
         {
-            get { return cover; }
+            get { return banner; }
             protected set
             {
-                cover = value;
+                banner = value;
                 RaisePropertyChanged("Banner");
             }
         }
