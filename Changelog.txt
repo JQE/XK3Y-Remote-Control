@@ -1,3 +1,8 @@
+v0.55:
+- Changed Panorama items back to pivot on the gameinfo screen
+- Fixed nocover image not showing
+- Added SubmissionInfo
+
 v0.5:
 - Fixed issue where the banner would be used instead of the cover
 - Changed pivot to panorama item on the gameinfo screen

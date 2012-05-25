@@ -159,7 +159,7 @@ namespace XK3Y.Web
             Uri uri = new Uri(String.Format("http://{0}/store.sh", AppSettings.IPAddress));
             GetData(uri, false, (sender, args) => {
                 AutoResetEvent evt = args.UserState as AutoResetEvent;
-                if (!string.IsNullOrEmpty(args.Result))
+                if (args.Error == null && !string.IsNullOrEmpty(args.Result))
                 {
                     JObject j = JObject.Parse(args.Result);
                     Store = JsonConvert.DeserializeObject<Store>(args.Result);
@@ -200,12 +200,14 @@ namespace XK3Y.Web
 
             Uri uri = new Uri(String.Format("http://{0}/store.sh", AppSettings.IPAddress));
             WebClient c = new WebClient();
-            c.OpenWriteCompleted += (sender, args) => 
-                {
-                    using (StreamWriter sw = new StreamWriter(args.Result))
+            c.OpenWriteCompleted += (sender, args) =>
                     {
-                        sw.Write(j.ToString());
-                    }};
+                        if (args.Error != null) return;
+                        using (StreamWriter sw = new StreamWriter(args.Result))
+                        {
+                            sw.Write(j.ToString());
+                        }
+                    };
             c.OpenWriteAsync(uri);
         }
     }

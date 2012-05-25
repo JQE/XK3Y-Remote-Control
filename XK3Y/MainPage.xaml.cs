@@ -100,7 +100,7 @@ namespace XK3Y
                     {
                         splashScreen.IsOpen = false;
                         MessageBox.Show(
-                            "An error occurred while downloading the gamelist. Verify that the IP address is correct, and that the XBox is enabled");
+                            "An error occurred while downloading the gamelist. Verify that the IP address is correct, and that your XBOX360 is switched on.");
                         NavigationService.Navigate(new Uri("/Config.xaml", UriKind.Relative));
                     });
             }

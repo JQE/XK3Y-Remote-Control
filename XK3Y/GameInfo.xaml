@@ -44,32 +44,32 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <controls:Panorama Grid.Row="1" x:Name="panorama" Title="{Binding Game}">
-            <controls:Panorama.TitleTemplate>
+        <controls:Pivot Grid.Row="1" x:Name="panorama" Title="{Binding Game}">
+            <controls:Pivot.TitleTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Name, Converter={StaticResource StringToLowercaseConverter}}" FontSize="100" Margin="0,50,0,0" />
+                        <TextBlock Text="{Binding Name, Converter={StaticResource StringToLowercaseConverter}}" FontSize="100" Margin="0,0,0,0" />
                         <TextBlock Text="This game is currently mounted" Style="{StaticResource PhoneTextAccentStyle}" Visibility="{Binding IsCurrentlyMounted, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </StackPanel>
                 </DataTemplate>
-            </controls:Panorama.TitleTemplate>
-            <controls:PanoramaItem Header="cover">
+            </controls:Pivot.TitleTemplate>
+            <controls:PivotItem Header="cover">
                 <ScrollViewer Margin="0">
                     <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Cover}"/>
                 </ScrollViewer>
-            </controls:PanoramaItem>
-            <controls:PanoramaItem Header="banner" x:Name="BannerPivot">
+            </controls:PivotItem>
+            <controls:PivotItem Header="banner" x:Name="BannerPivot">
                 <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Banner}"/>
-            </controls:PanoramaItem>
-            <controls:PanoramaItem Header="summary" x:Name="SummaryPivot">
+            </controls:PivotItem>
+            <controls:PivotItem Header="summary" x:Name="SummaryPivot">
                 <ScrollViewer Margin="0">
                     <TextBlock TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Summary}"/>
                 </ScrollViewer>
-            </controls:PanoramaItem>
-            <controls:PanoramaItem Header="info" x:Name="AdditionalInfoPivot">
+            </controls:PivotItem>
+            <controls:PivotItem Header="info" x:Name="AdditionalInfoPivot">
                 <ListBox Margin="0" ItemsSource="{Binding Info}" ItemTemplate="{StaticResource ItemTemplate}"/>
-            </controls:PanoramaItem>
-        </controls:Panorama>
+            </controls:PivotItem>
+        </controls:Pivot>
         <Popup x:Name="pickList"></Popup>
     </Grid>
 

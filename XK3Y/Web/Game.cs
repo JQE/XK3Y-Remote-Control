@@ -42,7 +42,7 @@ namespace XK3Y.Web
         public void DownloadInfo()
         {
             if (Cover != null) return;
-            Cover = new BitmapImage(new Uri("images\nocover.jpg", UriKind.Relative));
+            Cover = new BitmapImage(new Uri("images/nocover.jpg", UriKind.Relative));
 
             WebClient c = new WebClient();
             c.OpenReadCompleted += OnInfoRetrieved;
