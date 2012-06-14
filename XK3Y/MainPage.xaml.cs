@@ -41,7 +41,7 @@ namespace XK3Y
         {
             base.OnNavigatedTo(e);
 
-            if (AppSettings.IPAddress.Equals(IPAddress.None))
+            if (AppSettings.IPAddress == null)
             {
                 NavigationService.Navigate(new Uri("/Config.xaml?Initial=1", UriKind.Relative));
                 return;

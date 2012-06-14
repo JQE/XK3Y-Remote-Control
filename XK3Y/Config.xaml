@@ -41,7 +41,7 @@
             </Grid.ColumnDefinitions>
             
             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="35" TextWrapping="Wrap" Text="XK3Y IP Address:"/>
-            <TextBox Grid.Row="0" Grid.Column="1" x:Name="ipAddress" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" LostFocus="CheckAddress" Text="{Binding Path=IPAddress, Source={StaticResource AppSettings}, Mode=OneTime}" />
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="ipAddress" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" LostFocus="CheckAddress" />
             <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ipAddressError" Height="61" TextWrapping="Wrap" Text="The IP address you've entered is incorrect. Please enter a correct address." VerticalAlignment="Top" Foreground="Red" Visibility="Collapsed"/>
 
             <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" Text="Refresh rate:" VerticalAlignment="Center" Margin="0,36,0,0" />

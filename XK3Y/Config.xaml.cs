@@ -14,6 +14,9 @@ namespace XK3Y
         public Config()
         {
             InitializeComponent();
+
+            if (AppSettings.IPAddress != null)
+                ipAddress.Text = AppSettings.IPAddress.ToString();
         }
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)

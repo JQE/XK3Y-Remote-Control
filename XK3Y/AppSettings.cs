@@ -27,8 +27,12 @@ namespace XK3Y
 
         public static IPAddress IPAddress
         {
-            get { return IPAddress.Parse(GetValueOrDefault(IP, IPAddress.None.ToString())); }
-            //IPAddress.None); }
+            get
+            {
+                string s = GetValueOrDefault(IP, string.Empty);
+                IPAddress ip;
+                return (!string.IsNullOrEmpty(s) && IPAddress.TryParse(s, out ip)) ? ip : null;
+            }
             set { SetValue(IP, value.ToString()); }
         }
 
