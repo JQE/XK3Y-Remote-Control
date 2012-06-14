@@ -166,11 +166,8 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="images\logo.png" />
-    <Content Include="ApplicationTileIcon.png" />
+    <Resource Include="ApplicationTileIcon.png" />
     <Content Include="images\nocover.jpg" />
     <Content Include="Metro\config.png" />
     <Content Include="Metro\dark\appbar.favs.addto.rest.png" />
