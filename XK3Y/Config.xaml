@@ -31,9 +31,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="72" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="448*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
@@ -44,9 +44,9 @@
             <TextBox Grid.Row="0" Grid.Column="1" x:Name="ipAddress" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" LostFocus="CheckAddress" Text="{Binding Path=IPAddress, Source={StaticResource AppSettings}, Mode=OneTime}" />
             <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ipAddressError" Height="61" TextWrapping="Wrap" Text="The IP address you've entered is incorrect. Please enter a correct address." VerticalAlignment="Top" Foreground="Red" Visibility="Collapsed"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" Text="Refresh rate:" VerticalAlignment="Center"/>
-            <XK3Y:SliderEx Grid.Row="2" Grid.Column="2" Margin="0,24,0,0" x:Name="refreshRate" Value="{Binding Path=RefreshRate, Source={StaticResource AppSettings}, Mode=OneTime}" Minimum="1" Maximum="10" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="3" Grid.Column="2" Margin="12,0,0,0" Text="{Binding Value, ElementName=refreshRate, StringFormat='0'}" VerticalAlignment="Top" />
+            <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" Text="Refresh rate:" VerticalAlignment="Center" Margin="0,36,0,0" />
+            <XK3Y:SliderEx Grid.Row="2" Grid.Column="1" Margin="0,24,0,0" x:Name="refreshRate" Value="{Binding Path=RefreshRate, Source={StaticResource AppSettings}, Mode=OneTime}" Minimum="1" Maximum="10" VerticalAlignment="Center" Grid.RowSpan="2" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Margin="12,0,0,0" Text="{Binding ElementName=refreshRate, StringFormat=\{0\} seconds, Path=Value}" VerticalAlignment="Top" />
             
             <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="save" Tap="OnSave">Save</Button>
         </Grid>

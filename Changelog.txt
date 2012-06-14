@@ -1,3 +1,7 @@
+v0.6:
+- Small update on the Config screen
+- Updated application icons
+
 v0.55:
 - Changed Panorama items back to pivot on the gameinfo screen
 - Fixed nocover image not showing

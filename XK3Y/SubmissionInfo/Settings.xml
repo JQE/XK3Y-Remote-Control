@@ -1,8 +1,6 @@
 <MarketplaceDetails>
-  <SmallAppTile>
-  </SmallAppTile>
+  <SmallAppTile>ApplicationIcon.png</SmallAppTile>
   <LargeAppTile>ApplicationTileIcon.png</LargeAppTile>
-  <PCAppTile>
-  </PCAppTile>
+  <PCAppTile>MarketPlaceImage.png</PCAppTile>
   <ScreenShots>mainmenuf.png;jumplist.png;searchtv.png;gameinfocover.png;;;;;</ScreenShots>
 </MarketplaceDetails>
