@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,15 +20,11 @@ namespace XK3Y.Web
         public static ObservableCollection<GroupedObservableCollection<Game>> GroupedGames;
         private static readonly Random random = new Random();
 
-        private static BackgroundWorker _refreshWorker;
+        private static Timer _refreshTimer;
 
         public static void Reset()
         {
-            if (_refreshWorker != null)
-            {
-                _refreshWorker.CancelAsync();
-                _refreshWorker = null;
-            }
+            StopTimer();
 
             DataLoaded = false;
             Information = null;
@@ -38,27 +33,36 @@ namespace XK3Y.Web
             GroupedGames = null;
         }
 
+        private static bool PauseTimer { get; set; }
+
+        private static void StartTimer()
+        {
+            int timeout = AppSettings.RefreshRate * 1000;
+            _refreshTimer = new Timer(OnTimer, null, timeout, timeout);
+        }
+
+        private static void StopTimer()
+        {
+            if (_refreshTimer == null) return;
+            _refreshTimer.Dispose();
+            _refreshTimer = null;
+        }
+
         public static void DownloadData(bool async = true, bool autoRefresh = true)
         {
             Uri uri = new Uri(String.Format("http://{0}/data.xml?t={1}", AppSettings.IPAddress, random.Next()));
             GetData(uri, async, OnDataOpened);
 
-            if (!autoRefresh || (_refreshWorker != null && _refreshWorker.IsBusy)) return;
+            if (!autoRefresh || _refreshTimer != null) return;
 
-            // Start the refresh thread
-            _refreshWorker = new BackgroundWorker { WorkerSupportsCancellation = true };
-            _refreshWorker.DoWork += OnRefresh;
-            _refreshWorker.RunWorkerAsync();
+            StartTimer();
         }
 
-        private static void OnRefresh(object sender, DoWorkEventArgs e)
+        private static void OnTimer(object state)
         {
-            while (!e.Cancel)
-            {
-                Thread.Sleep(AppSettings.RefreshRate * 1000);
+            if (PauseTimer) return;
 
-                DownloadData(false, false);
-            }
+            DownloadData(false, false);
         }
 
         private static void GetData(Uri uri, bool async, DownloadStringCompletedEventHandler handler)
@@ -83,19 +87,17 @@ namespace XK3Y.Web
             c.OpenReadCompleted += handler;
             c.OpenReadAsync(uri, evt);
 
-            if (evt != null)
-            {
-                evt.WaitOne();
-            }
+            if (evt != null) evt.WaitOne();
         }
 
-        public static void UpdateData(string gameid = null, bool async = true)
+        public static void LaunchGame(string gameid, EventHandler launchGameComplete)
         {
-            Uri uri = string.IsNullOrEmpty(gameid)
-                          ? new Uri(string.Format("http://{0}/data.xml?t={1}", AppSettings.IPAddress, random.Next()))
-                          : new Uri(string.Format("http://{0}/launchgame.sh?{1}", AppSettings.IPAddress, gameid));
-
-            GetData(uri, async, OnDataOpened);
+            Uri uri = new Uri(string.Format("http://{0}/launchgame.sh?{1}&t={2}", AppSettings.IPAddress, gameid, random.Next()));
+            GetData(uri, true, (sender, args) =>
+                                   {
+                                       OnDataOpened(sender, args);
+                                       launchGameComplete(sender, args);
+                                   });
         }
 
         private static void OnDataOpened(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
@@ -193,9 +195,12 @@ namespace XK3Y.Web
         {
             JObject j = JObject.FromObject(Store);
             j.Add("FavLists", new JObject());
-            foreach (FavList favList in Store.FavLists)
+            if (Store.FavLists != null)
             {
-                ((JObject) j["FavLists"]).Add(favList.HtmlName, JArray.FromObject(favList));
+                foreach (FavList favList in Store.FavLists)
+                {
+                    ((JObject) j["FavLists"]).Add(favList.HtmlName, JArray.FromObject(favList));
+                }
             }
 
             Uri uri = new Uri(String.Format("http://{0}/store.sh", AppSettings.IPAddress));

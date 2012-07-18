@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Controls;
@@ -32,6 +31,9 @@ namespace XK3Y
 
                 // Prevent page transistion, since that's ugly ;)
                 TransitionService.SetNavigationOutTransition(this, new NavigationOutTransition());
+
+                // Also, prevent the backstack from returning to Config
+                NavigationService.RemoveBackEntry();
             }
             else
                 TransitionService.SetNavigationOutTransition(this, navigationOut);

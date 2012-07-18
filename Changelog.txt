@@ -1,3 +1,9 @@
+v0.7:
+- Fixed bug where back button wouldn't work when you entered the initial configuration
+- Changed behaviour when pressing back in initial configuration (exits application)
+- Changed behaviour for the save button in the configuration window (enabled/disabled with (in)valid data)
+- Fixed pretty huge bug when launching a game, which prevented the application from responding (http download with WaitEvent in the UI thread, ouch)
+
 v0.6:
 - Small update on the Config screen
 - Updated application icons

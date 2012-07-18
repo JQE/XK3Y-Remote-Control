@@ -167,6 +167,11 @@ namespace XK3Y
             get { return Game.Summary; }
         }
 
+        private void ShowMsg(string msg, params object[] args)
+        {
+            Dispatcher.BeginInvoke(() => MessageBox.Show(string.Format(msg, args)));
+        }
+
         private void Play(object sender, EventArgs e)
         {
             if (pickList.IsOpen) return;
@@ -174,16 +179,17 @@ namespace XK3Y
             if (Game.Info == null) Game.Info = new PlayInfo();
             Game.Info.TimesPlayed++;
             Game.Info.LastPlayed = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
-            DataLoader.UpdateData(Game.ID, false); // Will load the game, and wait until a response is retrieved and parsed
-            DataLoader.SaveSettings(); // Will save the settings
-
-            if (IsTrayOpen) return;
-            if (IsAnotherGameMounted)
-                MessageBox.Show(
-                    string.Format("The game '{0}' is already loaded. Please open the tray if you want to load this game instead.",
-                                  DataLoader.Information.ActiveGame.Name));
-            else
-                MessageBox.Show("Please open the tray if you want to mount this game.");
+            DataLoader.LaunchGame(Game.ID, // Will load the game, and wait until a response is retrieved and parsed
+                                  (s, args) =>
+                                      {
+                                          DataLoader.SaveSettings();
+                                          if (IsTrayOpen) return;
+                                          if (IsAnotherGameMounted)
+                                              ShowMsg("The game '{0}' is already loaded. Please open the tray if you want to load this game instead.",
+                                                                DataLoader.Information.ActiveGame.Name);
+                                          else
+                                              ShowMsg("Please open the tray if you want to mount this game.");
+                                      });
         }
         
         private void Favorite(object sender, EventArgs e)

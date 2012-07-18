@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using Microsoft.Phone.Controls;
@@ -10,6 +11,7 @@ namespace XK3Y
     public partial class Config
     {
         private NavigationInTransition navigationIn;
+        private bool initial;
 
         public Config()
         {
@@ -17,6 +19,8 @@ namespace XK3Y
 
             if (AppSettings.IPAddress != null)
                 ipAddress.Text = AppSettings.IPAddress.ToString();
+
+            save.IsEnabled = CanSave;
         }
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
@@ -32,6 +36,16 @@ namespace XK3Y
                 TransitionService.SetNavigationInTransition(this, navigationIn);
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!NavigationContext.QueryString.ContainsKey("Initial")) return;
+
+            NavigationService.RemoveBackEntry(); // This is the initial state, so remove the backentry
+            initial = true;
+        }
+
         private void CheckAddress(object sender, RoutedEventArgs e)
         {
             IPAddress ip;
@@ -39,6 +53,7 @@ namespace XK3Y
                                         !ip.Equals(IPAddress.Any) && !ip.Equals(IPAddress.Broadcast) && !IPAddress.IsLoopback(ip)
                                             ? Visibility.Collapsed
                                             : Visibility.Visible;
+            save.IsEnabled = CanSave;
         }
 
         private bool HasChanges
@@ -62,7 +77,7 @@ namespace XK3Y
             {
                 if (MessageBox.Show("You have unsaved changes. Do you want to save them now?", "Unsaved changed", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    OnSave(this, null);
+                    Save();
                 }
             }
 
@@ -79,7 +94,22 @@ namespace XK3Y
             base.OnBackKeyPress(e);
         }
 
+        private bool CanSave
+        {
+            get { return !string.IsNullOrEmpty(ipAddress.Text) && ipAddressError.Visibility == Visibility.Collapsed; }
+        }
+
         private void OnSave(object sender, GestureEventArgs e)
+        {
+            Save();
+
+            if (!initial && NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            else
+                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void Save()
         {
             AppSettings.RefreshRate = (int) refreshRate.Value;
 
